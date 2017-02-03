@@ -1,0 +1,23 @@
+{
+  "name": "mean",
+  "version": "1.0.0",
+  "description": "mean angular node mongo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpiovar/mean_angular_node.git"
+  },
+  "author": "juraj piovar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpiovar/mean_angular_node/issues"
+  },
+  "homepage": "https://github.com/jpiovar/mean_angular_node#readme",
+  "dependencies": {
+    "express": "^4.14.1",
+    "jade": "^1.11.0"
+  }
+}
