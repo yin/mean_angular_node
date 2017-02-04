@@ -1,0 +1,18 @@
+{
+  "name": "mean",
+  "description": "mean angular node mongo",
+  "main": "index.js",
+  "authors": [
+    "juraj piovar"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "toastr": "^2.1.3",
+    "angular": "^1.6.1",
+    "angular-resource": "^1.6.1",
+    "angular-route": "^1.6.1"
+  }
+}
