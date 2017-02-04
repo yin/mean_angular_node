@@ -1,6 +1,7 @@
 var express = require('express'),
     stylus = require('stylus'),
-    logger = require('morgan');
+    logger = require('morgan'),
+    bodyParser = require('body-parser');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
