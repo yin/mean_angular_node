@@ -33,15 +33,34 @@ db.once('open', function callback(){
   console.log(' ok mongoose ... db opened');
 });
 
-var msgSchema = mongoose.Schema({
-    message: String
-});
-var Message = mongoose.model('message', msgSchema);
-var mongoMessage = 'oooooo';
-Message.findOne().exec(function(err, messageDoc){
-  mongoMessage = messageDoc.message;
+var Schema = mongoose.Schema;
+var personSchema = new Schema({
+  name: String
 });
 
+var Person = mongoose.model('Person', personSchema);
+var mongoMessage = 'oooooo';
+
+Person.count({},function(err, msg) {
+  if (err) throw err;
+
+  // object of all the users
+  console.log(msg);
+  mongoMessage = msg;
+});
+
+/*
+db.collection('person').find({},function(err, docs) {
+    console.log(docs);
+}); 
+*/
+
+
+/*
+Person.findOne().exec(function(err, messageDoc){
+  mongoMessage = messageDoc.name;
+});
+*/
 
 app.get('/partials/:partialPath', function(req,res){
   res.render('partials/' + req.params.partialPath);
