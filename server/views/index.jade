@@ -1,8 +1,5 @@
 //output: index.html
-doctype
-html(lang='en')
-head  
-title ok jade
-body 
-h1 Hello World1
-    
+extends ../includes/layout
+block main-content
+  section.content
+    div(ng-view)
