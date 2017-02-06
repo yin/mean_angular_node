@@ -3,6 +3,9 @@ var express = require('express'),
     logger = require('morgan'),
     bodyParser = require('body-parser');
     //mongoose = require('mongoose');
+
+var cons = require('consolidate');
+    
 var MongoClient = require('mongodb').MongoClient;
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -13,8 +16,16 @@ function compile(str, path){
   return stylus(str).set('filename', path);
 }
 
+
 app.set('views',__dirname + '/server/views');
 app.set('view engine', 'jade');
+
+
+//app.engine('html', cons.swig)
+//app.set('views',__dirname + '/server/views');
+//app.set('view engine', 'html');
+
+
 app.use(logger('dev'));
 //app.use(bodyParser());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -77,7 +88,7 @@ MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
     collection.find().toArray(function(err, items) {
         if(err) throw err;    
         console.log(items);
-        mongoMessage = items;            
+        mongoMessage = items.length;            
     });
         
   });
