@@ -1,8 +1,9 @@
 var express = require('express'),
     stylus = require('stylus'),
     logger = require('morgan'),
-    bodyParser = require('body-parser'),
-    mongoose = require('mongoose');
+    bodyParser = require('body-parser');
+    //mongoose = require('mongoose');
+var MongoClient = require('mongodb').MongoClient;
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -26,6 +27,69 @@ app.use(stylus.middleware(
 ));
 app.use(express.static(__dirname + '/public'));
 
+
+
+var mongoMessage;
+
+
+MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
+   
+  if(err) throw err;
+    
+       
+  db.collection('Persons', function (err, collection) {
+           
+    collection.insert({ id: 1, firstName: 'Steve', lastName: 'Jobs' });
+    collection.insert({ id: 2, firstName: 'Bill', lastName: 'Gates' });
+    collection.insert({ id: 3, firstName: 'James', lastName: 'Bond' });
+      
+  });   
+         
+ 
+  db.collection('Persons').count(function (err, count) {
+    if (err) throw err;             
+    console.log('Total Rows: ' + count);
+  });
+         
+         
+  db.collection('Persons', function (err, collection) {
+         
+    collection.update({id: 1}, { $set: { firstName: 'James', lastName: 'Gosling'} }, {w:1}, function(err, result){
+      if(err) throw err;    
+      console.log('Document Updated Successfully');
+    });
+  
+  });
+  
+  
+  db.collection('Persons', function (err, collection) {
+    
+    collection.remove({id:2}, {w:1}, function(err, result) {        
+        if(err) throw err;            
+        console.log('Document Removed Successfully');
+    });
+    
+  });
+    
+    
+  db.collection('Persons', function (err, collection) {
+        
+    collection.find().toArray(function(err, items) {
+        if(err) throw err;    
+        console.log(items);
+        mongoMessage = items;            
+    });
+        
+  });
+         
+     
+                
+});
+
+
+
+
+/*
 mongoose.connect('mongodb://localhost/mean');
 var db = mongoose.connection;
 db.on('error',console.error.bind(console,' error mongoose ...'));
@@ -40,7 +104,7 @@ var personSchema = new Schema({
 
 var Person = mongoose.model('Person', personSchema);
 var mongoMessage = 'oooooo';
-
+/*
 Person.count({},function(err, msg) {
   if (err) throw err;
 
@@ -48,13 +112,14 @@ Person.count({},function(err, msg) {
   console.log(msg);
   mongoMessage = msg;
 });
-
-/*
-db.collection('person').find({},function(err, docs) {
-    console.log(docs);
-}); 
 */
 
+/*
+db.collection('userdetails').find({},function(err, docs) {
+    console.log(docs);
+}); 
+
+*/
 
 /*
 Person.findOne().exec(function(err, messageDoc){
