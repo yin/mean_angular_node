@@ -1,0 +1,22 @@
+{
+  "name": "mean_post_get",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-route": "^1.6.2",
+    "body-parser": "^1.16.0",
+    "cors": "^2.8.1",
+    "express": "^4.14.1",
+    "gyp": "^0.5.0",
+    "kerberos": "0.0.22",
+    "mongoose": "^4.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jp",
+  "license": "ISC"
+}
