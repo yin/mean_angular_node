@@ -1,7 +1,11 @@
 var meanApp = angular.module('meanApp', ['ngRoute']);
 
 
-meanApp.config(function($routeProvider) {
+meanApp.config(function($routeProvider,$locationProvider) {
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
     $routeProvider
     .when("/", {
         templateUrl : "partials/home.html",
@@ -14,7 +18,8 @@ meanApp.config(function($routeProvider) {
     .when("/town", {
         templateUrl : "partials/town.html",
         controller : "townCtrl"
-    });
+    })
+    .otherwise({ redirectTo: '/' });
 });
 
 meanApp.controller('appCtrl', function($http) {
