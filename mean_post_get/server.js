@@ -38,9 +38,10 @@ var thingModel = mongoose.model('Thing',{thing: String});
 app.post('/add',function(req, res){
   var thing = req.body.thing;
   var thingDoc = new thingModel({thing: thing});
-  thing.Doc.save(function(){
+  console.log(thing);
+  /*thing.Doc.save(function(){
     res.send();
-  });
+  });*/
 });
 
 
