@@ -4,15 +4,15 @@ var meanApp = angular.module('meanApp', ['ngRoute']);
 meanApp.config(function($routeProvider) {
     $routeProvider
     .when("/", {
-        templateUrl : "home.html",
+        templateUrl : "partials/home.html",
         controller : "appCtrl"
     })
     .when("/city", {
-        templateUrl : "city.html",
+        templateUrl : "partials/city.html",
         controller : "cityCtrl"
     })
     .when("/town", {
-        templateUrl : "town.html",
+        templateUrl : "partials/town.html",
         controller : "townCtrl"
     });
 });
