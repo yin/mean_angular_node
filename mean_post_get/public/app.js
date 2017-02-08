@@ -19,7 +19,7 @@ meanApp.config(function($routeProvider) {
 
 meanApp.controller('appCtrl', function($http) {
     var apc = this;
-    var url = "http://localhost:3000";
+    var url = "http://localhost:3030";
     
     apc.thingsFromMongo = [];
     
