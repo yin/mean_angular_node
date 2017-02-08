@@ -16,7 +16,9 @@ app.use(bodyParser.json());
 
 app.use( express.static( __dirname + '/public' ));
 
-//app.use(express.static(path.join(__dirname, '')));
+app.use('/node_modules', express.static(__dirname + '/node_modules/'));
+
+
 
 app.get('/',function(req, res){
        
@@ -26,11 +28,11 @@ app.get('/',function(req, res){
 
 
 
-/*
+
 mongoose.connect('mongodb://localhost/mean_post_get');
 
 var thingModel = mongoose.model('Thing',{thing: String});
-*/
+
 
 
 app.post('/add',function(req, res){
