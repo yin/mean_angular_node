@@ -30,7 +30,7 @@ meanApp.controller('appCtrl', function($http) {
     
     apc.submit = function(thing){
       console.log('apc submited');
-      $http.post(url + '/add', {thing: thing});
+      $http.post(url + '/add', {thingInput: thing});
     }
     
 });

@@ -42,18 +42,18 @@ app.get('/city',function(req, res){
 mongoose.connect('mongodb://localhost/mean_post_get');
 
 var thingModel = mongoose.model('Thing',{thing: String});
-
+*/
 
 
 app.post('/add',function(req, res){
-  var thing = req.body.thing;
-  var thingDoc = new thingModel({thing: thing});
+  var thing = req.body.thingInput;
+  //var thingDoc = new thingModel({thing: thing});
   console.log(thing);
-  thing.Doc.save(function(){
+  /*thing.Doc.save(function(){
     res.send();
-  });
+  });*/
 });
-*/
+
 
 var port = process.env.PORT || 3030;
 app.listen(port);
