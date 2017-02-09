@@ -34,7 +34,6 @@ meanApp.controller('appCtrl', function($http) {
        .then(function(response) {
             console.log("Server response ");
             apc.respost = response.data.a;
-            apc.$apply(); 
         });
        /*.success(function(data, status, headers, config){
         apc.respost = data; 
