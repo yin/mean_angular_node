@@ -49,10 +49,17 @@ app.post('/add',function(req, res){
   var thing = req.body.thingInput;
   //var thingDoc = new thingModel({thing: thing});
   console.log(thing);
+  
+  res.setHeader('content-type', 'application/json');
+  res.json({ a: 1 });
+  //res.send(thing);
   /*thing.Doc.save(function(){
     res.send();
   });*/
 });
+
+
+
 
 
 var port = process.env.PORT || 3030;
