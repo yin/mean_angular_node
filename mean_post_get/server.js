@@ -37,12 +37,26 @@ app.get('/city',function(req, res){
 });
 */
 
+mongoose.connection.on("open", function(ref) {
+  console.log("Connected to mongo server.");
+});
 
-/*
-mongoose.connect('mongodb://localhost/mean_post_get');
+mongoose.connection.on("error", function(err) {
+  console.log("Could not connect to mongo server!");
+});
 
-var thingModel = mongoose.model('Thing',{thing: String});
-*/
+var db = mongoose.connect('mongodb://localhost/mean_post_get', function(err) {
+            if (err) {
+                logger.error('MongoDB connection error: ' + err);
+                // return reject(err);
+                process.exit(1);
+            } else {
+                console.log("MongoDb connection succeeded");
+            }
+        });
+
+var thingModel = db.model('Thing',{thing: String});
+
 
 
 app.post('/add',function(req, res){
