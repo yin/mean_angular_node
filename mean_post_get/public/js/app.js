@@ -46,4 +46,25 @@ meanApp.controller('appCtrl', function($http) {
       
     }
     
+
+    
+});
+
+
+
+meanApp.controller('townCtrl', function($http) {
+    var town = this;
+    var url = "http://localhost:3030";
+    
+    town.townButtonClick = function(townItem){
+      debugger;
+      console.log('town button clicked');
+       $http.post(url + '/townAdd', {townItemClient: townItem})
+       .then(function(response) {
+            console.log("Server response ");
+            town.responsePost = response.data.townA;
+        });
+    }
+    
+    
 });

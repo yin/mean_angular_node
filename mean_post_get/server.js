@@ -59,7 +59,15 @@ app.post('/add',function(req, res){
 });
 
 
+app.post('/townAdd',function(req, res){
+  var tic = req.body.townItemClient;
 
+  console.log(tic);
+  
+  res.setHeader('content-type', 'application/json');
+  res.json({ townA: 'server town response' });
+
+});
 
 
 var port = process.env.PORT || 3030;
