@@ -11,7 +11,7 @@
     "express": "^4.14.1",
     "gyp": "^0.5.0",
     "kerberos": "0.0.22",
-    "mongoose": "^4.8.1"
+    "mongodb": "^2.2.24"
   },
   "devDependencies": {},
   "scripts": {
