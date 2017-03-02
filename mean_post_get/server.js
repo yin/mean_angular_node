@@ -1,5 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var path = require('path');
+
+//var $ = jQuery = require('jquery')(window);
 
 var cors = require('cors');
 
@@ -77,6 +80,7 @@ app.use(bodyParser.json());
 app.use( express.static( __dirname + '/public'));
 
 
+
 //app.use('/node_modules', express.static(__dirname + '/node_modules/'));
 //app.use('/node_modules', express.static('node_modules'));
 app.use( express.static( __dirname + '/node_modules'));
@@ -123,6 +127,19 @@ app.post('/townAdd',function(req, res){
   res.json({ townA: 'server town response' });
 
 });
+
+
+
+app.post('/addRecord',function(req, res){
+  var recordAddClient = req.body.recordAddClient;
+
+  console.log(recordAddClient);
+  
+  res.setHeader('content-type', 'application/json');
+  res.json({ 'responseAddRecord': 'lllll' });
+
+});
+
 
 
 var port = process.env.PORT || 3030;

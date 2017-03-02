@@ -19,6 +19,10 @@ meanApp.config(function($routeProvider,$locationProvider) {
         templateUrl : "partials/town.html",
         controller : "townCtrl"
     })
+    .when("/list", {
+        templateUrl : "partials/list.html",
+        controller : "listCtrl"
+    })
     .otherwise({ redirectTo: '/' });
 });
 
@@ -64,6 +68,28 @@ meanApp.controller('townCtrl', function($http) {
             console.log("Server response ");
             town.responsePost = response.data.townA;
         });
+    }
+    
+    
+});
+
+
+meanApp.controller('listCtrl', function($http) {
+    var self = this;
+    var url = "http://localhost:3030";
+    
+    self.addRecord = function(){ debugger;
+      debugger;
+      console.log('Add record button clicked');
+       $http.post(url + '/addRecord', {recordAddClient: self.recordInput})
+       .then(function(response) {
+            console.log("Server response");
+            self.responseAction = response.data.responseAddRecord;
+        });
+    }
+    
+    self.removeRecord = function(){ debugger;
+    
     }
     
     
