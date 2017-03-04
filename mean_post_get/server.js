@@ -71,10 +71,7 @@ var pr = new Promise(function(resolve,reject){
     var res1 = getRecordMongo('Record');
     console.log('prrrrr' + res1);
     resolve(res1); 
-    */
-    
-    
-    
+    */      
     MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
        
       if(err) throw err;
@@ -83,9 +80,8 @@ var pr = new Promise(function(resolve,reject){
         collection.find().toArray(function(err, items) {
           if(err) throw err;    
           console.log('service items from mongodb '+items);
-          
-          resolve(items);
-          
+          //items=[{'item':'ok1'}];
+          resolve(items);         
           /*
           res.setHeader('content-type', 'application/json');      
           res.json({ 'responseAction': result });
@@ -93,8 +89,10 @@ var pr = new Promise(function(resolve,reject){
                 
         });
         
+        
       });
       
+      db.close();
     
       
     }); 

@@ -78,12 +78,12 @@ meanApp.controller('townCtrl', function($http) {
 meanApp.service('mongoDb', function($http) { debugger;
     var self = this;
     var url = "http://localhost:3030";
-    var cachedResponse;
+    
     self.getRecord = function () {
       console.log('Get record from mongodb');
       return $http.post(url + '/getRecord', {action: 'getRecord'})
        .then(function(response) {
-            cachedResponse = response;
+            
             console.log("Server response");debugger;
             return response.data.responseAction;
             
