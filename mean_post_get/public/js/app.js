@@ -78,12 +78,15 @@ meanApp.controller('townCtrl', function($http) {
 meanApp.service('mongoDb', function($http) { debugger;
     var self = this;
     var url = "http://localhost:3030";
+    var cachedResponse;
     self.getRecord = function () {
       console.log('Get record from mongodb');
-      $http.post(url + '/getRecord', {action: 'getRecord'})
+      return $http.post(url + '/getRecord', {action: 'getRecord'})
        .then(function(response) {
-            console.log("Server response");
-            self.responseAction = response.data.responseAction;
+            cachedResponse = response;
+            console.log("Server response");debugger;
+            return response.data.responseAction;
+            
       });
     }
 });
@@ -94,7 +97,10 @@ meanApp.controller('listCtrl', function($http, mongoDb) {
     
     
     self.getAllDataDb = function(){ debugger;
-      mongoDb.getRecord();
+      mongoDb.getRecord().then(function(data){
+          self.items = data;
+       });
+       debugger;
     }
     
     
