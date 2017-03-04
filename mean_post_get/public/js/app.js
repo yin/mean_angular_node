@@ -74,21 +74,58 @@ meanApp.controller('townCtrl', function($http) {
 });
 
 
-meanApp.controller('listCtrl', function($http) {
+
+meanApp.service('mongoDb', function($http) { debugger;
+    var self = this;
+    var url = "http://localhost:3030";
+    self.getRecord = function () {
+      console.log('Get record from mongodb');
+      $http.post(url + '/getRecord', {action: 'getRecord'})
+       .then(function(response) {
+            console.log("Server response");
+            self.responseAction = response.data.responseAction;
+      });
+    }
+});
+
+meanApp.controller('listCtrl', function($http, mongoDb) {
     var self = this;
     var url = "http://localhost:3030";
     
-    self.addRecord = function(){ debugger;
-      debugger;
-      console.log('Add record button clicked');
-       $http.post(url + '/addRecord', {recordAddClient: self.recordInput})
+    
+    self.getAllDataDb = function(){ debugger;
+      mongoDb.getRecord();
+    }
+    
+    
+    
+    /*
+    self.getAllDataDb = function(){
+      
+      console.log('Get record from mongodb');
+      $http.post(url + '/getAllRecord', {recordAddClient: self.recordInput})
        .then(function(response) {
             console.log("Server response");
             self.responseAction = response.data.responseAddRecord;
-        });
+      });
+      
+    }
+    */
+    
+    self.addRecord = function(){ 
+      
+      console.log('Add record button clicked');
+      $http.post(url + '/addRecord', {recordAddClient: self.recordInput})
+       .then(function(response) {
+            console.log("Server response");
+            self.responseAction = response.data.responseAddRecord;
+      });
+      
     }
     
-    self.removeRecord = function(){ debugger;
+    
+    
+    self.removeRecord = function(){ 
     
     }
     
