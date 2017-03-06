@@ -216,7 +216,8 @@ app.post('/add',function(req, res){
   //res.send(thing);
   /*thing.Doc.save(function(){
     res.send();
-  });*/
+    });*/
+  res.end();
 });
 
 
@@ -227,7 +228,7 @@ app.post('/townAdd',function(req, res){
   
   res.setHeader('content-type', 'application/json');
   res.json({ townA: 'server town response' });
-
+  res.end();
 });
 
 /* list past start */
@@ -250,6 +251,7 @@ app.post('/getRecord',function(req, res){
 		console.log('pr next'+items); 
 		res.setHeader('content-type', 'application/json');
 		res.json({ 'responseAction': items });
+		res.end()
 		db.close();
 		/*
 		  res.setHeader('content-type', 'application/json');      
@@ -271,7 +273,7 @@ app.post('/addRecord',function(req, res){
   
   res.setHeader('content-type', 'application/json');
   res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb' });
-
+  res.end();
 });
 
 
