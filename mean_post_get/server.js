@@ -56,11 +56,8 @@ var addRecordMongo = function(collectionName,record){
             
     db.collection(collectionName, function (err, collection) {
       collection.insert({ item: record });
-      
+      db.close();
     });
-    
-    db.close();
-    
   });  
   
 }
@@ -77,38 +74,25 @@ var pr = new Promise(function(resolve,reject){
     */      
     MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
        
-      if(err) throw err;
+        if(err) throw err;
               
-      db.collection('Record', function (err, collection) {
-        collection.find().toArray(function(err, items) {
-          if(err) throw err;    
-          console.log('service items from mongodb '+items);
-          //items=[{'item':'ok1'}];
-          resolve(items);         
-          /*
-          res.setHeader('content-type', 'application/json');      
-          res.json({ 'responseAction': result });
-          */
-                
+        db.collection('Record', function (err, collection) {
+            collection.find().toArray(function(err, items) {
+              if(err) throw err;
+              console.log('service items from mongodb '+items);
+              //items=[{'item':'ok1'}];
+              db.close();
+              resolve(items);
+              /*
+              res.setHeader('content-type', 'application/json');      
+              res.json({ 'responseAction': result });
+              */
+            });
         });
-        
-        
-      });
-      
-      db.close();
-    
-      
     }); 
-    
-    
-       
 });
 
-
 function getRecordMongo(collectionName){
-  
-  
-  
   
   MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
      
@@ -116,23 +100,19 @@ function getRecordMongo(collectionName){
             
     db.collection('Record', function (err, collection) {
       collection.find().toArray(function(err, items) {
-        if(err) throw err;    
+        if(err) throw err;
         console.log('service items from mongodb '+items);
         
         setTimeout(function(){ 
           return items;
         },5000);
+        db.close();
         /*
         res.setHeader('content-type', 'application/json');      
         res.json({ 'responseAction': result });
         */
-              
       });
-      
     });
-    
-    db.close();
-    
   }); 
   
 
