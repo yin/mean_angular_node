@@ -57,11 +57,12 @@ var addRecordMongo = function(collectionName,record,res){
 	     db.collection(collectionName, function (err, collection) {
 	        collection.insert({ item: record }, function(err, r) {
 		          db.close();	
+              getRecord(res);
 	        });
 	     });
     });  
     
-    getRecord(res);
+    
 }
 
 
