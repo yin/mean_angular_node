@@ -52,13 +52,13 @@ var addRecordMongo = function(collectionName,record,res){
   
     MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
      
-	if(err) throw err;
+	     if(err) throw err;
             
-	db.collection(collectionName, function (err, collection) {
-	    collection.insert({ item: record }, function(err, r) {
-		db.close();	
-	    });
-	});
+	     db.collection(collectionName, function (err, collection) {
+	        collection.insert({ item: record }, function(err, r) {
+		          db.close();	
+	        });
+	     });
     });  
     
     getRecord(res);
