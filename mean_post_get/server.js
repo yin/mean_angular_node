@@ -239,7 +239,7 @@ app.post('/townAdd',function(req, res){
 
 
 
-function getRecord(){
+function getRecord(res){
   
 var pr = new Promise(function(resolve,reject){
   //var res1 = [];
@@ -319,7 +319,7 @@ app.post('/getRecord',function(req, res){
 
   console.log(actionClient);
 
-  getRecord();
+  getRecord(res);
   
 
     
@@ -335,9 +335,10 @@ app.post('/addRecord',function(req, res){
   
   var result = addRecordMongo(colectionMongoDb,recordAddClient);
   
-  
+  /*
   res.setHeader('content-type', 'application/json');
   res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb' });
+  */
   
   getRecord();
 
