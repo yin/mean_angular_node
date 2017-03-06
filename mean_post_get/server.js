@@ -48,7 +48,7 @@ var colectionMongoDb = 'Record';
 
 
 
-var addRecordMongo = function(collectionName,record){
+var addRecordMongo = function(collectionName,record,res){
   
     MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
      
@@ -60,6 +60,8 @@ var addRecordMongo = function(collectionName,record){
 	    });
 	});
     });  
+    
+    getRecord(res);
 }
 
 
@@ -333,14 +335,14 @@ app.post('/addRecord',function(req, res){
 
   console.log(recordAddClient);
   
-  var result = addRecordMongo(colectionMongoDb,recordAddClient);
+  var result = addRecordMongo(colectionMongoDb,recordAddClient,res);
   
   /*
   res.setHeader('content-type', 'application/json');
   res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb' });
   */
   
-  getRecord(res);
+  
 
 });
 
