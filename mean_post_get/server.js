@@ -44,22 +44,41 @@ var colectionMongoDb = 'Record';
 
 
 
+var getRecord = function() {
+    return new Promise(function(accept, reject) {
+	MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
+	    
+            if(err) { reject(err); return; }
+            
+            db.collection('Record', function (err, collection) {
+		collection.find().toArray(function(err, items) {
+		    if(err) { reject(err); return; }
 
-
-
+		    console.log('service items from mongodb '+items);
+		    console.log('pr next'+items);
+		    accept(items);
+		    db.close();
+		});
+            });
+	});
+	
+    });
+};
 
 var addRecordMongo = function(collectionName,record){
-  
-    MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
-     
-	if(err) throw err;
+    return new Promise(function(accept, reject) {
+	MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
+	    if(err) { reject(err); return; }
             
-	db.collection(collectionName, function (err, collection) {
-	    collection.insert({ item: record }, function(err, r) {
-		db.close();	
+	    db.collection(collectionName, function (err, collection) {
+		collection.insert({ item: record }, function(err, r) {
+		    if(err) { reject(err); return; }
+		    db.close();
+		    accept(r);
 	    });
 	});
     });  
+    });
 }
 
 
@@ -239,41 +258,27 @@ app.post('/getRecord',function(req, res){
 
     console.log(actionClient);
 
-    MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
-       
-        if(err) throw err;
-              
-        db.collection('Record', function (err, collection) {
-            collection.find().toArray(function(err, items) {
-		if(err) throw err;
-		console.log('service items from mongodb '+items);
-		//items=[{'item':'ok1'}];
-		console.log('pr next'+items); 
-		res.setHeader('content-type', 'application/json');
-		res.json({ 'responseAction': items });
-		res.end()
-		db.close();
-		/*
-		  res.setHeader('content-type', 'application/json');      
-		  res.json({ 'responseAction': result });
-		*/
-            });
-        });
-    }); 
+    getRecord().then(function(items) {
+	res.setHeader('content-type', 'application/json');
+	res.json({ 'responseAction': items });
+	res.end()
+    });
 });
 
 
 app.post('/addRecord',function(req, res){
-  var recordAddClient = req.body.recordAddClient;
+    var recordAddClient = req.body.recordAddClient;
 
-  console.log(recordAddClient);
-  
-  var result = addRecordMongo(colectionMongoDb,recordAddClient);
-  
-  
-  res.setHeader('content-type', 'application/json');
-  res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb' });
-  res.end();
+    console.log(recordAddClient);
+    
+    addRecordMongo(colectionMongoDb,recordAddClient)
+	.then(function(result) {
+	    getRecord().then(function(items) {
+		res.setHeader('content-type', 'application/json');
+		res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb', 'new-ites': items });
+		res.end();
+	    })
+	});
 });
 
 
