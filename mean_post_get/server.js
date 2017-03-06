@@ -340,7 +340,7 @@ app.post('/addRecord',function(req, res){
   res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb' });
   */
   
-  getRecord();
+  getRecord(res);
 
 });
 
