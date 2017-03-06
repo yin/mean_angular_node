@@ -58,6 +58,9 @@ var addRecordMongo = function(collectionName,record){
       collection.insert({ item: record });
       
     });
+    
+    db.close();
+    
   });  
   
 }
@@ -128,7 +131,7 @@ function getRecordMongo(collectionName){
       
     });
     
-  
+    db.close();
     
   }); 
   
