@@ -230,94 +230,35 @@ app.post('/townAdd',function(req, res){
 
 });
 
-
-
-
-
-
 /* list past start */
 
 
 app.post('/getRecord',function(req, res){
-  var actionClient = req.body.action;
+    var actionClient = req.body.action;
 
-  console.log(actionClient);
+    console.log(actionClient);
 
-    
-  var pr = new Promise(function(resolve,reject){
-    //var res1 = [];
-    /*
-    var res1 = getRecordMongo('Record');
-    console.log('prrrrr' + res1);
-    resolve(res1); 
-    */      
     MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
        
         if(err) throw err;
               
         db.collection('Record', function (err, collection) {
             collection.find().toArray(function(err, items) {
-              if(err) throw err;
-              console.log('service items from mongodb '+items);
-              //items=[{'item':'ok1'}];
-              db.close();
-              resolve(items);
-              /*
-              res.setHeader('content-type', 'application/json');      
-              res.json({ 'responseAction': result });
-              */
+		if(err) throw err;
+		console.log('service items from mongodb '+items);
+		//items=[{'item':'ok1'}];
+		console.log('pr next'+items); 
+		res.setHeader('content-type', 'application/json');
+		res.json({ 'responseAction': items });
+		db.close();
+		/*
+		  res.setHeader('content-type', 'application/json');      
+		  res.json({ 'responseAction': result });
+		*/
             });
         });
     }); 
-  });
-
-    
-  pr.then(function(msg){
-      console.log('pr next'+msg); 
-      res.setHeader('content-type', 'application/json');
-      res.json({ 'responseAction': msg });
-  });
-  //getRecordMongo(colectionMongoDb);
-  //.then(function(){
-    //res.setHeader('content-type', 'application/json');
-    //res.json({ 'responseAction': result });
-  //});
-  
-  //var result = [{'item':'item1'},{'item':'item2'}];
-  
-  //console.log(result);
-  
-  
-  /*
-  var result;
-  
-  MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
-     
-    if(err) throw err;
-            
-    db.collection('Record', function (err, collection) {
-      collection.find().toArray(function(err, items) {
-        if(err) throw err;    
-        console.log('service items from mongodb '+items);
-        
-        result = items;
-        
-        res.setHeader('content-type', 'application/json');      
-        res.json({ 'responseAction': result });
-              
-      });
-      
-    });  
-    
-  }); 
-  */
-  
-  
-
-    
-
 });
-
 
 
 app.post('/addRecord',function(req, res){
