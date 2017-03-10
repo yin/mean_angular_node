@@ -90,14 +90,14 @@ meanApp.service('mongoDb', function($http) { debugger;
       });
     }
     
-    self.addRecord = function(){
+    self.addRecord = function(recordInput){
       console.log('Add record to mongodb');
-      return $http.post(url + '/addRecord', {action: 'addRecord', recordAddClient: self.recordInput})
+      return $http.post(url + '/addRecord', {action: 'addRecord', recordAddClient: recordInput})
        .then(function(response) {
             console.log("Server response");
             //self.responseAction = response.data.responseAddRecord;            
             //self.getAllDataDb();
-            self.items = response.data.responseAction;
+            return response.data.responseAction;
       });
     }
     
@@ -133,6 +133,11 @@ meanApp.controller('listCtrl', function($http, mongoDb) {
     self.addRecord = function(){ 
       
       console.log('Add record button clicked');
+      mongoDb.addRecord(self.recordInput).then(function(data){debugger;
+          self.items = data;
+       });
+       debugger;
+      /*
       $http.post(url + '/addRecord', {recordAddClient: self.recordInput})
        .then(function(response) {debugger;
             console.log("Server response");
@@ -140,7 +145,7 @@ meanApp.controller('listCtrl', function($http, mongoDb) {
             //self.getAllDataDb();
             self.items = response.data.responseAction;
       });
-      
+      */
     }
     
     

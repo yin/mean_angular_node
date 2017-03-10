@@ -318,23 +318,22 @@ var addRecord = function(collectionName,record){
 
 app.post('/getRecord',function(req, res){
   var actionClient = req.body.action;
-
   console.log(actionClient);
 
   getRecord().then(function(items){
     res.setHeader('content-type', 'application/json');
     res.json({ 'responseAction': items });
     res.end();
-  });
-  
-
-    
+  });    
 
 });
 
 
 
 app.post('/addRecord',function(req, res){
+  var actionClient = req.body.action;
+  console.log(actionClient);
+  
   var recordAddClient = req.body.recordAddClient;
 
   console.log(recordAddClient);
