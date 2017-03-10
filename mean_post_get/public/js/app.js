@@ -89,6 +89,18 @@ meanApp.service('mongoDb', function($http) { debugger;
             
       });
     }
+    
+    self.addRecord = function(){
+      console.log('Add record to mongodb');
+      return $http.post(url + '/addRecord', {action: 'addRecord', recordAddClient: self.recordInput})
+       .then(function(response) {
+            console.log("Server response");
+            //self.responseAction = response.data.responseAddRecord;            
+            //self.getAllDataDb();
+            self.items = response.data.responseAction;
+      });
+    }
+    
 });
 
 meanApp.controller('listCtrl', function($http, mongoDb) {
@@ -122,9 +134,11 @@ meanApp.controller('listCtrl', function($http, mongoDb) {
       
       console.log('Add record button clicked');
       $http.post(url + '/addRecord', {recordAddClient: self.recordInput})
-       .then(function(response) {
+       .then(function(response) {debugger;
             console.log("Server response");
-            self.responseAction = response.data.responseAddRecord;
+            //self.responseAction = response.data.responseAddRecord;
+            //self.getAllDataDb();
+            self.items = response.data.responseAction;
       });
       
     }

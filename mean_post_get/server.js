@@ -339,12 +339,13 @@ app.post('/addRecord',function(req, res){
 
   console.log(recordAddClient);
   
-  addRecord(colectionMongoDb,recordAddClient,res)
+  addRecord(colectionMongoDb,recordAddClient)
     .then(function(result){
       getRecord()
         .then(function(items){
           res.setHeader('content-type', 'application/json');
-          res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb', 'newItems':items });
+          //res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb', 'newItems':items });
+          res.json({ 'responseAction': items });
           res.end();
         });
     });
