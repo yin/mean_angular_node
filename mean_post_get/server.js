@@ -238,80 +238,79 @@ app.post('/townAdd',function(req, res){
 
 
 
+
+
+
+
 /* list past start */
 
 
 
-function getRecord(res){
+var getRecord = function() {
+  return new Promise(function(resolve, reject) {
+    MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
   
-var pr = new Promise(function(resolve,reject){
-  //var res1 = [];
-  /*
-  var res1 = getRecordMongo('Record');
-  console.log('prrrrr' + res1);
-  resolve(res1); 
-  */      
-  MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
-     
-      if(err) throw err;
+      if(err) { 
+        reject(err); return; 
+      }
             
       db.collection('Record', function (err, collection) {
-          collection.find().toArray(function(err, items) {
-            if(err) throw err;
-            console.log('service items from mongodb '+items);
-            //items=[{'item':'ok1'}];
-            db.close();
-            resolve(items);
-            /*
-            res.setHeader('content-type', 'application/json');      
-            res.json({ 'responseAction': result });
-            */
-          });
-      });
-  }); 
-});
-
   
-pr.then(function(msg){
-    console.log('pr next'+msg); 
-    res.setHeader('content-type', 'application/json');
-    res.json({ 'responseAction': msg });
-});
-//getRecordMongo(colectionMongoDb);
-//.then(function(){
-  //res.setHeader('content-type', 'application/json');
-  //res.json({ 'responseAction': result });
-//});
-
-//var result = [{'item':'item1'},{'item':'item2'}];
-
-//console.log(result);
-
-
-/*
-var result;
-
-MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
-   
-  if(err) throw err;
+        collection.find().toArray(function(err, items) {
+  
+          if(err) { 
+            reject(err); return; 
+          }
           
-  db.collection('Record', function (err, collection) {
-    collection.find().toArray(function(err, items) {
-      if(err) throw err;    
-      console.log('service items from mongodb '+items);
-      
-      result = items;
-      
-      res.setHeader('content-type', 'application/json');      
-      res.json({ 'responseAction': result });
-            
-    });
-    
-  });  
+          console.log('service items from mongodb '+items);
+          console.log('pr next'+items);
+          resolve(items);
+          db.close();
   
-}); 
-*/
+        });
+  
+      });
+  
+    });
+  
+  });
+  
+};
 
+
+
+
+var addRecord = function(collectionName,record){
+
+  return new Promise(function(resolve, reject) {
+
+    MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
+     
+	     if(err){
+         reject(err);
+         return;
+       }
+            
+	     db.collection(collectionName, function (err, collection) {
+         
+	        collection.insert({ item: record }, function(err, result) {
+            
+            if(err) { 
+              reject(err); 
+              return;            
+            }
+            
+            db.close();	            
+            resolve(result);
+            
+	        });
+          
+	     });
+       
+    });  
+    
+  });
+    
 }
 
 
@@ -322,7 +321,11 @@ app.post('/getRecord',function(req, res){
 
   console.log(actionClient);
 
-  getRecord(res);
+  getRecord().then(function(items){
+    res.setHeader('content-type', 'application/json');
+    res.json({ 'responseAction': items });
+    res.end();
+  });
   
 
     
@@ -336,15 +339,19 @@ app.post('/addRecord',function(req, res){
 
   console.log(recordAddClient);
   
-  var result = addRecordMongo(colectionMongoDb,recordAddClient,res);
+  addRecord(colectionMongoDb,recordAddClient,res)
+    .then(function(result){
+      getRecord()
+        .then(function(items){
+          res.setHeader('content-type', 'application/json');
+          res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb', 'newItems':items });
+          res.end();
+        });
+    });
   
-  /*
-  res.setHeader('content-type', 'application/json');
-  res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb' });
-  */
   
   
-
+  
 });
 
 
