@@ -101,6 +101,17 @@ meanApp.service('mongoDb', function($http) { debugger;
       });
     }
     
+    self.removeRecord = function(recordId){debugger;
+      console.log('Remove record from mongodb');
+      return $http.post(url + '/removeRecord', {action: 'removeRecord', recordRemoveClient: recordId})
+       .then(function(response) {
+            console.log("Server response");
+            //self.responseAction = response.data.responseAddRecord;            
+            //self.getAllDataDb();
+            return response.data.responseAction;
+      });
+    }
+    
 });
 
 meanApp.controller('listCtrl', function($http, mongoDb) {
@@ -150,8 +161,12 @@ meanApp.controller('listCtrl', function($http, mongoDb) {
     
     
     
-    self.removeRecord = function(){ 
-    
+    self.removeRecord = function(id){ debugger;
+      console.log('Remove record button clicked');
+      mongoDb.removeRecord(id).then(function(data){debugger;
+          self.items = data;
+       });
+       debugger;
     }
     
     

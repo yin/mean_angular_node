@@ -278,9 +278,78 @@ var getRecord = function() {
 };
 
 
-
+var getMaxObjArray = function(objArr) {
+  var maxObjArr = 0;
+  for(var i in objArr){
+    if(objArr[i].id > maxObjArr){
+      maxObjArr = objArr[i].id;
+    }
+  }
+  return maxObjArr;
+}
 
 var addRecord = function(collectionName,record){
+
+  return new Promise(function(resolve, reject) {
+
+    MongoClient.connect("mongodb://localhost:27017/mean", function (err, db) {
+              
+	     if(err){
+         reject(err);
+         return;
+       }
+           
+         
+       db.collection(collectionName, function (err, collection) {
+         
+         
+          collection.find().toArray(function(err, items) {
+   
+            if(err) { 
+              reject(err); return; 
+            }
+           
+            console.log('service items from mongodb '+items);
+            console.log('pr next'+items);
+
+            
+            var maxRecord = getMaxObjArray(items);
+            console.log(maxRecord);  
+              
+            collection.insert({ id: maxRecord+1, item: record }, function(err, result) {
+              
+              if(err) { 
+                reject(err); 
+                return;            
+              }
+              
+              db.close();	            
+              resolve(result);
+              
+  	        });  
+              
+          });
+         
+          
+          
+	     });
+         
+         
+         
+         
+      
+            
+	     
+       
+    });  
+    
+  });
+    
+}
+
+
+
+var removeRecord = function(collectionName,recordId){
 
   return new Promise(function(resolve, reject) {
 
@@ -293,17 +362,17 @@ var addRecord = function(collectionName,record){
             
 	     db.collection(collectionName, function (err, collection) {
          
-	        collection.insert({ item: record }, function(err, result) {
-            
+	        collection.remove({id:recordId}, {w:1}, function(err, result) {        
             if(err) { 
               reject(err); 
               return;            
             }
+            console.log('Removed Successfully');
             
             db.close();	            
             resolve(result);
             
-	        });
+          });
           
 	     });
        
@@ -312,8 +381,6 @@ var addRecord = function(collectionName,record){
   });
     
 }
-
-
 
 
 app.post('/getRecord',function(req, res){
@@ -353,6 +420,32 @@ app.post('/addRecord',function(req, res){
   
   
 });
+
+app.post('/removeRecord',function(req, res){
+  var actionClient = req.body.action;
+  console.log(actionClient);
+  
+  var recordRemoveClient = req.body.recordRemoveClient;
+
+  console.log(recordRemoveClient);
+  
+  removeRecord(colectionMongoDb,recordRemoveClient)
+    .then(function(result){
+      getRecord()
+        .then(function(items){
+          res.setHeader('content-type', 'application/json');
+          //res.json({ 'responseAddRecord': ' record ' + recordAddClient + ' added to mongodb', 'newItems':items });
+          res.json({ 'responseAction': items });
+          res.end();
+        });
+    });
+  
+  
+  
+  
+});
+
+
 
 
 /* list part end */
